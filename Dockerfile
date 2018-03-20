@@ -129,9 +129,9 @@ RUN set -xe \
     # 开发环境启用xdebug
     # && pecl install xdebug-${PHP_XDEBUG_VERSION} \
     # && docker-php-ext-enable xdebug \
-    # && git clone --branch ${PHP_XDEBUG_VERSION} https://github.com/xdebug/xdebug.git /tmp/php-xdebug \
-    #    && docker-php-ext-configure /tmp/php-xdebug \
-    #    && docker-php-ext-install /tmp/php-xdebug \
+    && git clone --branch ${PHP_XDEBUG_VERSION} https://github.com/xdebug/xdebug.git /tmp/php-xdebug \
+        && docker-php-ext-configure /tmp/php-xdebug \
+        && docker-php-ext-install /tmp/php-xdebug \
     && apk del .build-deps \
     && rm -rf /tmp/* \
     && rm -rf /var/www \
@@ -153,7 +153,7 @@ COPY config/mongodb.ini $PHP_INI_DIR/conf.d/
 # 生产环境利用opcache中间代码复用加速
 COPY config/opcache.ini $PHP_INI_DIR/conf.d/
 # 开发环境启用xdebug
-#COPY config/xdebug.ini $PHP_INI_DIR/conf.d/
+COPY config/xdebug.ini $PHP_INI_DIR/conf.d/
 
 # install composer
 RUN curl --tlsv1 -sS https://getcomposer.org/installer | php -- --filename=composer --install-dir=/bin
