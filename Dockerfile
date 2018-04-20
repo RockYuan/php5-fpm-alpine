@@ -76,6 +76,7 @@ RUN set -xe \
         mcrypt \
         pdo_mysql \
         gd \
+        zip \
     && git clone --branch ${RABBITMQ_VERSION} https://github.com/alanxz/rabbitmq-c.git /tmp/rabbitmq \
         && cd /tmp/rabbitmq \
         && mkdir build && cd build \
