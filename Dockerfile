@@ -67,7 +67,7 @@ RUN set -xe \
     && docker-php-ext-configure pdo_mysql --with-pdo-mysql \
     && docker-php-ext-configure gd \
             --with-freetype-dir=/usr/include/ \
-            --with-jpeg-dir=/usr/include/ \
+            --with-jpeg-dir=/usr/lib/ \
             --with-png-dir=/usr/include/ \
             --with-gd \
     # 生产环境利用opcache中间代码复用加速
