@@ -33,10 +33,13 @@ RUN apk add --no-cache --virtual .persistent-deps \
     # for mongodb
     libssl1.0 \
     # for gd
-    freetype \
     libpng \
+    freetype \
+    freetype-dev \
     libjpeg \
+    libjpeg-dev \
     libjpeg-turbo \
+    libjpeg-turbo-dev \
     # for imagick
     imagemagick \
     # for memcached
@@ -48,10 +51,10 @@ RUN set -xe \
         $PHPIZE_DEPS \
         openssl-dev \
         # for gd
-        freetype-dev \
         libpng-dev \
-        libjpeg-dev \
-        libjpeg-turbo-dev \
+        #freetype-dev \
+        #libjpeg-dev \
+        #libjpeg-turbo-dev \
         # for memcached
         libmemcached-dev \
         zlib-dev \
@@ -65,10 +68,10 @@ RUN set -xe \
     && docker-php-ext-configure intl --enable-intl \
     && docker-php-ext-configure pdo_mysql --with-pdo-mysql \
     && docker-php-ext-configure gd \
-            --with-gd \
             --with-freetype-dir=/usr/include/ \
-            --with-png-dir=/usr/include/ \
             --with-jpeg-dir=/usr/include/ \
+            --with-png-dir=/usr/include/ \
+            --with-gd \
     # 生产环境利用opcache中间代码复用加速
     && docker-php-ext-configure opcache --enable-opcache \
     && docker-php-ext-install opcache \
