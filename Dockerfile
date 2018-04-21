@@ -35,6 +35,7 @@ RUN apk add --no-cache --virtual .persistent-deps \
     # for gd
     freetype \
     libpng \
+    libjpeg \
     libjpeg-turbo \
     # for imagick
     imagemagick \
@@ -49,6 +50,7 @@ RUN set -xe \
         # for gd
         freetype-dev \
         libpng-dev \
+        libjpeg-dev \
         libjpeg-turbo-dev \
         # for memcached
         libmemcached-dev \
@@ -66,7 +68,7 @@ RUN set -xe \
             --with-gd \
             --with-freetype-dir=/usr/include/ \
             --with-png-dir=/usr/include/ \
-            --with-jpeg-dir=/usr/lib/ \
+            --with-jpeg-dir=/usr/include/ \
     # 生产环境利用opcache中间代码复用加速
     && docker-php-ext-configure opcache --enable-opcache \
     && docker-php-ext-install opcache \
