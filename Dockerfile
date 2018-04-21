@@ -36,7 +36,7 @@ RUN apk add --no-cache --virtual .persistent-deps \
     libpng \
     freetype \
     freetype-dev \
-    libjpeg-dev \
+    libjpeg-turbo \
     libjpeg-turbo-dev \
     # for imagick
     imagemagick \
