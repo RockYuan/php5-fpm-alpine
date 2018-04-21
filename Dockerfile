@@ -34,9 +34,11 @@ RUN apk add --no-cache --virtual .persistent-deps \
     libssl1.0 \
     # for gd
     freetype \
+    libfreetype6 \
+    libjpeg62-turbo \
     libpng \
-    libjpeg \
-    libjpeg-turbo \
+    # libjpeg \
+    # libjpeg-turbo \
     # for imagick
     imagemagick \
     # for memcached
@@ -50,8 +52,9 @@ RUN set -xe \
         # for gd
         freetype-dev \
         libpng-dev \
-        libjpeg-dev \
-        libjpeg-turbo-dev \
+        libfreetype6-dev \
+        libjpeg62-turbo-dev \
+        # libjpeg-turbo-dev \
         # for memcached
         libmemcached-dev \
         zlib-dev \
