@@ -55,7 +55,6 @@ RUN set -ex; \
     apk add --virtual .phpexts-rundeps $runDeps; \
     apk del .build-deps \
     # 建立默认工作目录
-    rm -rf /data \
     mkdir -p /data
 
 # Copy configuration
