@@ -37,6 +37,7 @@ RUN set -ex; \
         linux-headers \
         # for ...
         openssl-dev \
+        git \
     ; \
     \
     docker-php-ext-configure gd --with-freetype-dir=/usr --with-png-dir=/usr --with-jpeg-dir=/usr; \
