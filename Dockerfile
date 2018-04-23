@@ -41,7 +41,7 @@ RUN set -ex; \
         # for mongodb
         libssl1.0 \
         # for imagick
-        imagemagick \
+        imagemagick-dev \
         libtool \
         # for memcached
         libmemcached-dev \
