@@ -53,7 +53,7 @@ RUN set -ex; \
             | awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
     )"; \
     apk add --virtual .phpexts-rundeps $runDeps; \
-    apk del .build-deps \
+    apk del .build-deps; \
     # 建立默认工作目录
     mkdir -p /data
 
