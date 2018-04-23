@@ -40,11 +40,11 @@ RUN set -ex; \
     ; \
     \
     docker-php-ext-configure gd --with-freetype-dir=/usr --with-png-dir=/usr --with-jpeg-dir=/usr; \
-    docker-php-ext-install gd mysqli opcache; \
-    \
+    docker-php-ext-configure pdo_mysql --with-pdo-mysql; \
     docker-php-ext-configure bcmath --enable-bcmath; \
     docker-php-ext-configure intl --enable-intl; \
-    # docker-php-ext-configure pdo_mysql --with-pdo-mysql; \
+    \
+    docker-php-ext-install gd pdo_mysql mysqli zip bcmath intl mcrypt opcache; \
     \
     runDeps="$( \
         scanelf --needed --nobanner --format '%n#p' --recursive /usr/local/lib/php/extensions \
@@ -53,7 +53,59 @@ RUN set -ex; \
             | awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
     )"; \
     apk add --virtual .phpexts-rundeps $runDeps; \
+    \
+    git clone --branch ${RABBITMQ_VERSION} https://github.com/alanxz/rabbitmq-c.git /tmp/rabbitmq; \
+    cd /tmp/rabbitmq; \
+    mkdir build; \
+    cd build; \
+    cmake ..; \
+    cmake --build . --target install; \
+    cp -r /usr/local/lib64/* /usr/lib/; \
+    \
+    git clone --branch ${PHP_AMQP_VERSION} https://github.com/pdezwart/php-amqp.git /tmp/php-amqp; \
+    cd /tmp/php-amqp; \
+    phpize;  \
+    ./configure;  \
+    make;  \
+    make install; \
+    make test; \
+    \
+    git clone --branch ${PHP_REDIS_VERSION} https://github.com/phpredis/phpredis /tmp/phpredis; \
+    cd /tmp/phpredis; \
+    phpize;  \
+    ./configure;  \
+    make;  \
+    make install; \
+    make test; \
+    \
+    git clone --branch ${PHP_MONGO_VERSION} https://github.com/mongodb/mongo-php-driver /tmp/php-mongo; \
+    cd /tmp/php-mongo; \
+    git submodule sync; 
+    git submodule update --init; \
+    phpize;  \
+    ./configure;  \
+    make;  \
+    make install; \
+    make test; \
+    \
+    git clone --branch ${PHP_MEMCACHED_VERSION} https://github.com/php-memcached-dev/php-memcached.git /tmp/php-memcached; \
+    docker-php-ext-configure /tmp/php-memcached; \
+    docker-php-ext-install /tmp/php-memcached; \
+    \
+    # 安装imagick
+    pecl install imagick-${PHP_IMAGICK_VERSION}; \
+    docker-php-ext-enable imagick; \
+    \
+    # 安装swoole
+    pecl install swoole-${PHP_SWOOLE_VERSION}; \
+    docker-php-ext-enable swoole; \
+    \
+    # 开发环境启用xdebug
+    pecl install xdebug-${PHP_XDEBUG_VERSION}; \
+    docker-php-ext-enable xdebug; \
+    \
     apk del .build-deps; \
+    rm -rf /tmp/*; \
     # 建立默认工作目录
     mkdir -p /data
 
