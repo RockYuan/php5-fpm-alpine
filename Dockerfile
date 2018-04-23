@@ -12,10 +12,24 @@ ENV PHP_IMAGICK_VERSION 3.4.3
 ENV PHP_XDEBUG_VERSION XDEBUG_2_5_5
 # 2.6.0 >= php7
 
+ENV PHPIZE_DEPS \
+    autoconf \
+    cmake \
+    file \
+    g++ \
+    gcc \
+    libc-dev \
+    pcre-dev \
+    make \
+    git \
+    pkgconf \
+    re2c
+    
 # 安装需要的插件
 RUN set -ex; \
     \
     apk add --no-cache --virtual .build-deps \
+        $PHPIZE_DEPS \
         # for gd extension
         freetype-dev \
         libjpeg-turbo-dev \
@@ -37,7 +51,6 @@ RUN set -ex; \
         linux-headers \
         # for ...
         openssl-dev \
-        git \
     ; \
     \
     docker-php-ext-configure gd --with-freetype-dir=/usr --with-png-dir=/usr --with-jpeg-dir=/usr; \
@@ -81,7 +94,7 @@ RUN set -ex; \
     \
     git clone --branch ${PHP_MONGO_VERSION} https://github.com/mongodb/mongo-php-driver /tmp/php-mongo; \
     cd /tmp/php-mongo; \
-    git submodule sync; 
+    git submodule sync; \
     git submodule update --init; \
     phpize;  \
     ./configure;  \
