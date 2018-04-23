@@ -24,7 +24,7 @@ ENV PHPIZE_DEPS \
     git \
     pkgconf \
     re2c
-    
+
 # 安装需要的插件
 RUN set -ex; \
     \
@@ -51,6 +51,7 @@ RUN set -ex; \
         linux-headers \
         # for ...
         openssl-dev \
+        tzdata \
     ; \
     \
     docker-php-ext-configure gd --with-freetype-dir=/usr --with-png-dir=/usr --with-jpeg-dir=/usr; \
@@ -107,16 +108,29 @@ RUN set -ex; \
     docker-php-ext-install /tmp/php-memcached; \
     \
     # 安装imagick
-    pecl install imagick-${PHP_IMAGICK_VERSION}; \
-    docker-php-ext-enable imagick; \
+    # pecl install imagick-${PHP_IMAGICK_VERSION}; \
+    # docker-php-ext-enable imagick; \
+    git clone --branch ${PHP_IMAGICK_VERSION} https://github.com/mkoppanen/imagick.git /tmp/php-imagick; \
+    docker-php-ext-configure /tmp/php-imagick; \
+    docker-php-ext-install /tmp/php-imagick; \
     \
     # 安装swoole
-    pecl install swoole-${PHP_SWOOLE_VERSION}; \
-    docker-php-ext-enable swoole; \
+    # pecl install swoole-${PHP_SWOOLE_VERSION}; \
+    # docker-php-ext-enable swoole; \
+    git clone --branch ${PHP_SWOOLE_VERSION} https://github.com/swoole/swoole-src.git /tmp/php-swoole; \
+    docker-php-ext-configure /tmp/php-swoole; \
+    docker-php-ext-install /tmp/php-swoole; \
     \
     # 开发环境启用xdebug
-    pecl install xdebug-${PHP_XDEBUG_VERSION}; \
-    docker-php-ext-enable xdebug; \
+    # pecl install xdebug-${PHP_XDEBUG_VERSION}; \
+    # docker-php-ext-enable xdebug; \
+    git clone --branch ${PHP_XDEBUG_VERSION} https://github.com/xdebug/xdebug.git /tmp/php-xdebug; \
+    docker-php-ext-configure /tmp/php-xdebug; \
+    docker-php-ext-install /tmp/php-xdebug; \
+    \
+    # 系统时间
+    cp /usr/share/zoneinfo/Asia/Hong_Kong /etc/localtime; \
+    echo "Asia/Hong_Kong" >  /etc/timezone; \
     \
     apk del .build-deps; \
     rm -rf /tmp/*; \
