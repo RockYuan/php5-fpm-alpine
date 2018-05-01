@@ -58,7 +58,7 @@ RUN set -ex; \
     docker-php-ext-configure bcmath --enable-bcmath; \
     docker-php-ext-configure intl --enable-intl; \
     \
-    docker-php-ext-install gd pdo_mysql mysqli zip bcmath intl mcrypt opcache; \
+    docker-php-ext-install gd pdo_mysql mysqli zip bcmath intl mcrypt opcache sockets; \
     \
     runDeps="$( \
         scanelf --needed --nobanner --format '%n#p' --recursive /usr/local/lib/php/extensions \
