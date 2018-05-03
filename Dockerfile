@@ -58,7 +58,7 @@ RUN set -ex; \
     docker-php-ext-configure bcmath --enable-bcmath; \
     docker-php-ext-configure intl --enable-intl; \
     \
-    docker-php-ext-install gd pdo_mysql mysqli zip bcmath intl mcrypt opcache sockets; \
+    docker-php-ext-install gd pdo_mysql mysqli zip bcmath intl mcrypt opcache sockets iconv; \
     \
     runDeps="$( \
         scanelf --needed --nobanner --format '%n#p' --recursive /usr/local/lib/php/extensions \
@@ -135,6 +135,9 @@ RUN set -ex; \
     rm -rf /tmp/*; \
     # 建立默认工作目录
     mkdir -p /data
+
+RUN apk add gnu-libiconv --update-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing/ --allow-untrusted
+ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
 
 # Copy configuration
 COPY config/fpm/php-fpm.conf /usr/local/etc/
