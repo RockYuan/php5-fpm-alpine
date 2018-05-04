@@ -110,7 +110,7 @@ RUN set -ex; \
     # pecl install imagick-${PHP_IMAGICK_VERSION}; \
     # docker-php-ext-enable imagick; \
     git clone --branch ${PHP_IMAGICK_VERSION} https://github.com/mkoppanen/imagick.git /tmp/php-imagick; \
-    docker-php-ext-configure /tmp/php-imagick; \
+    docker-php-ext-configure /tmp/php-imagick --without-threads; \
     docker-php-ext-install /tmp/php-imagick; \
     \
     # 安装swoole
