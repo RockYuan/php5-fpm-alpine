@@ -40,7 +40,7 @@ RUN set -ex; \
         libmcrypt-dev \
         # for mongodb libssl1.0
         # for imagick
-        imagemagick-dev \
+        #imagemagick-dev \
         libtool \
         # for memcached
         libmemcached-dev \
@@ -51,6 +51,8 @@ RUN set -ex; \
         # for ...
         openssl-dev \
         tzdata \
+    ; \
+    apk add imagemagick-dev --update-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/main --allow-untrusted \
     ; \
     \
     docker-php-ext-configure gd --with-freetype-dir=/usr --with-png-dir=/usr --with-jpeg-dir=/usr; \
@@ -66,7 +68,8 @@ RUN set -ex; \
             | sort -u \
             | awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
     )"; \
-    apk add --virtual .phpexts-rundeps $runDeps imagemagick libmemcached-libs libssl1.0; \
+    apk add --virtual .phpexts-rundeps $runDeps libmemcached-libs libssl1.0; \
+    # imagemagick
     \
     git clone --branch ${RABBITMQ_VERSION} https://github.com/alanxz/rabbitmq-c.git /tmp/rabbitmq; \
     cd /tmp/rabbitmq; \
