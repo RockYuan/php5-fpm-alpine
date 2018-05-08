@@ -38,10 +38,6 @@ RUN set -ex; \
         icu-dev \
         # for mcrypt extension
         libmcrypt-dev \
-        # for mongodb libssl1.0
-        # for imagick
-        #imagemagick-dev \
-        libtool \
         # for memcached
         libmemcached-dev \
         zlib-dev \
@@ -50,8 +46,10 @@ RUN set -ex; \
         linux-headers \
         # for ...
         openssl-dev \
+        libtool \
         tzdata \
     ; \
+    # for imagick
     apk add imagemagick-dev --update-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/main --allow-untrusted \
     ; \
     \
@@ -69,7 +67,6 @@ RUN set -ex; \
             | awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
     )"; \
     apk add --virtual .phpexts-rundeps $runDeps libmemcached-libs libssl1.0; \
-    # imagemagick
     \
     git clone --branch ${RABBITMQ_VERSION} https://github.com/alanxz/rabbitmq-c.git /tmp/rabbitmq; \
     cd /tmp/rabbitmq; \
@@ -113,7 +110,7 @@ RUN set -ex; \
     # pecl install imagick-${PHP_IMAGICK_VERSION}; \
     # docker-php-ext-enable imagick; \
     git clone --branch ${PHP_IMAGICK_VERSION} https://github.com/mkoppanen/imagick.git /tmp/php-imagick; \
-    docker-php-ext-configure /tmp/php-imagick --without-threads; \
+    docker-php-ext-configure /tmp/php-imagick; \
     docker-php-ext-install /tmp/php-imagick; \
     \
     # 安装swoole
