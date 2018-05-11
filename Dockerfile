@@ -150,6 +150,9 @@ COPY config/mongodb.ini $PHP_INI_DIR/conf.d/
 COPY config/opcache.ini $PHP_INI_DIR/conf.d/
 # 开发环境启用xdebug
 COPY config/xdebug.ini $PHP_INI_DIR/conf.d/
+# 根据系统环境变量修改命令行提示
+COPY config/env_prompt.sh /etc/profile.d/env_prompt.sh
+ENV ENV="/etc/profile"
 
 # install composer
 RUN curl --tlsv1 -sS https://getcomposer.org/installer | php -- --filename=composer --install-dir=/bin
