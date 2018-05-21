@@ -45,3 +45,9 @@ elif [ "$ConfEnv" = dev ]; then
 else
 	PS1="\h \w \\$ "
 fi
+
+# 安全和快捷的alias
+alias rm='rm -i'
+alias mv='mv -i'
+alias cp='cp -i'
+alias ll='ls -l'
