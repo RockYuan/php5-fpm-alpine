@@ -37,11 +37,11 @@ txtrst='\e[0m'    # Text Reset
 
 
 if [ "$ConfEnv" = prod ]; then
-	PS1="$bakred$ConfEnv$txtrst $txtred\h$txtrst \w \$ "
+	PS1="$bakred$ConfEnv$txtrst $txtred\h$txtrst \w \\$ "
 elif [ "$ConfEnv" = gray ]; then
-	PS1="$bakblu$ConfEnv$txtrst $txtblu\h$txtrst \w \$ "
+	PS1="$bakblu$ConfEnv$txtrst $txtblu\h$txtrst \w \\$ "
 elif [ "$ConfEnv" = dev ]; then 
-	PS1="$bakgrn$ConfEnv$txtrst $txtgrn\h$txtrst \w \$ "
+	PS1="$bakgrn$ConfEnv$txtrst $txtgrn\h$txtrst \w \\$ "
 else
-	PS1="\h \w \$ "
+	PS1="\h \w \\$ "
 fi
