@@ -146,9 +146,9 @@ COPY config/php.ini $PHP_INI_DIR
 COPY config/amqp.ini $PHP_INI_DIR/conf.d/
 COPY config/redis.ini $PHP_INI_DIR/conf.d/
 COPY config/mongodb.ini $PHP_INI_DIR/conf.d/
-# 生产环境利用opcache中间代码复用加速
-COPY config/opcache.ini $PHP_INI_DIR/conf.d/
-# 开发环境启用xdebug
+# 生产现网利用opcache中间代码复用加速,开发环境注释
+#COPY config/opcache.ini $PHP_INI_DIR/conf.d/
+# 开发环境启用xdebug,现网环境注释
 COPY config/xdebug.ini $PHP_INI_DIR/conf.d/
 # 根据系统环境变量修改命令行提示
 COPY config/env_prompt.sh /etc/profile.d/env_prompt.sh
